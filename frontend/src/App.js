@@ -2,6 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const { data, loading, error } = useGet('https://jsonplaceholder.typicode.com/posts');
+  const { sendData, response: postResponse } = usePostOrPut('https://jsonplaceholder.typicode.com/posts', 'post');
+  const { deleteData, response: deleteResponse } = useDelete('https://jsonplaceholder.typicode.com/posts/1');
+
+  useEffect(() => {
+    sendData({ title: 'New Post', body: 'This is a test post.', userId: 1 });
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
