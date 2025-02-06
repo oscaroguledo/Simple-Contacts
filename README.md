@@ -42,11 +42,9 @@ The project uses:
 1. **Clone the repository** by running the following command in your terminal:
 
    ```bash
-   git clone https://github.com/yourusername/contacts-web-app.git
-   cd contacts-web-app
+   git clone https://github.com/oscaroguledo/Simple-Contacts.git
+   cd Simple-Contacts
    ```
-
-   Replace `yourusername` with your GitHub username.
 
 ---
 
@@ -61,7 +59,7 @@ The project uses:
 
 1. **Navigate to the backend folder**:
    ```bash
-   cd contacts-backend
+   cd backend
    ```
 
 2. **Create a virtual environment**:
