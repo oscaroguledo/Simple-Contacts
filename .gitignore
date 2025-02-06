@@ -1,0 +1,89 @@
+# ===========================
+# OS Generated Files
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# IDE and Editor Files
+# ===========================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ===========================
+# Python / Django (Backend)
+# ===========================
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+**/*.pyo
+**/*.pyd
+
+# C extensions
+**/*.so
+
+# Distribution / packaging
+backend/*.egg-info/
+backend/.eggs/
+*.egg
+*.whl
+
+# Virtual Environments
+backend/venv/
+backend/env/
+backend/.env
+.env
+env/
+venv/
+
+# Django specific
+backend/db.sqlite3
+backend/db.sqlite3-journal
+backend/local_settings.py
+backend/staticfiles/
+
+# Logs
+backend/*.log
+*.log
+
+# ===========================
+# Node.js / React (Frontend)
+# ===========================
+# Node modules
+frontend/node_modules/
+
+# Build outputs
+frontend/build/
+frontend/dist/
+
+# Temporary files
+frontend/.cache/
+frontend/coverage/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# ===========================
+# Miscellaneous
+# ===========================
+# Environment variable files
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Optional npm cache directory
+.npm/
+
+# Optional REPL history
+.node_repl_history
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
