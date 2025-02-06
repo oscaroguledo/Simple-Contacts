@@ -1,0 +1,81 @@
+/* Icon Styles */
+.icon {
+    font-size: var(--font-size-medium);  /* Default font size */
+    background:none;
+  }
+  
+/* Focus state */
+.icon:focus {
+    outline: none;
+}
+  
+  /* Disabled state */
+  .icon.icon-disabled,
+  .icon.disabled {
+    opacity: var(--disabled-opacity);
+    cursor: var(--disabled-cursor);
+  }
+  
+  /* Primary button/icon */
+  .icon.icon-primary {
+    color: var(--primary);
+  }
+  
+
+  /* Secondary button/icon */
+  .icon.icon-secondary {
+    color: var(--secondary);
+  }
+  
+  
+  /* Danger button/icon */
+  .icon.icon-danger {
+    color: var(--danger);
+  }
+  
+  
+  /* Success button/icon */
+  .icon.icon-success {
+    color: var(--success);
+  }
+  
+  /* Warning button/icon */
+  .icon.icon-warning {
+    color: var(--warning);
+  }
+  
+  /* Notification button/icon */
+  .icon.icon-notification {
+    color: var(--notification);
+  }
+  
+
+  /* Light icon */
+  .icon.icon-light {
+    color: var(--light);
+  }
+  /* Dark icon */
+  .icon.icon-dark {
+    color: var(--dark);
+  }
+  /* Small icon */
+  .icon-small {
+    font-size: var(--font-size-small);
+  }
+  
+  /* Medium icon */
+  .icon-medium {  /* Changed from .icon-default to be more consistent */
+    font-size: var(--font-size-medium);
+  }
+  
+  /* Large icon */
+  .icon-large {
+    font-size: var(--font-size-large);
+  }
+  
+  /* Icon-specific hover effects */
+  .icon:hover {
+    transition: var(--transition);
+    /* Add more hover effects if needed */
+  }
+  

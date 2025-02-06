@@ -1,0 +1,131 @@
+/* Container to align the input */
+.input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-small);
+    
+    font-size: var(--font-size-medium);
+    border: 1.5px solid var(--background-dark);
+    border-radius: 50px;
+    background-color: var(--background-dark);
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and borders are included in width */
+    
+  }
+  .input-number {
+    border-radius: 4px;
+    max-width: 13px;
+    box-sizing: border-box; /* Ensure padding and borders are included in width */
+  }
+  .input-number-with-buttons{
+    max-width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-small);
+    font-size: var(--font-size-medium);
+    border: 1.5px solid transparent;
+    border-radius: 50px;
+    background-color: none;
+    width: 170px;
+    box-sizing: border-box; /* Ensure padding and borders are included in width */
+  }
+    
+  /* Styling for the entire input wrapper */
+  .input-wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%; /* Adjust width as needed */
+      position: relative;
+      font-size: var(--font-size-medium);
+  }
+  .input-text,
+  .input-text:focus,
+  .input-text:active,
+  .input-text:focus-visible,
+  .input-text:hover,
+  .input-text:active,
+  .input-text:focus-visible {
+        background: none;
+        border: none;
+        width: 100%;
+        cursor: text; 
+        caret-color: var(--primary);
+        font-size: var(--font-size-medium);
+        border-color: transparent; /* Remove the blue border */
+        outline: none; /* Remove the default focus outline */
+  }
+  /* Focus effect */
+  
+  /* Placeholder styling */
+  .input-text::placeholder {
+        color: var(--muted);
+        font-style: italic;
+        font-size: var(--font-size-medium);
+  }
+  
+
+  /* Optional styling for prefix and suffix outside the input */
+  .input-prefix, .input-suffix {
+    padding: 2px;
+
+  }
+  
+  /* Optional internal prefix (inside input) */
+  .input-internal-suffix {
+    position: absolute;
+    right: 10px;
+  }
+  
+.input-separator {
+    color: var(--muted);
+}
+.text-box,
+.text-box:focus,
+.text-box:active,
+.text-box:focus-visible,
+.text-box:hover,
+.text-box:active,
+.text-box:focus-visible {
+    cursor: text; 
+    outline: none; /* Remove the default focus outline */
+    font-size: var(--font-size-medium);
+    border: 1.5px solid var(--background);
+    border-radius: 4px;
+    padding: 0px;
+    background-color: var(--background);
+    width: 346px;
+    resize: 'vertical',
+}
+/* For small screens (e.g., mobile) */
+@media (max-width: 576px) {
+  .text-box {
+    width: 100%;  /* Full width for small screens */
+  }
+}
+
+/* For tablets or medium-sized screens */
+@media (max-width: 768px) {
+  .text-box {
+    width: 346px;  /* Fixed width for tablets */
+  }
+}
+
+/* For larger screens (e.g., desktop) */
+@media (min-width: 769px) {
+  .text-box {
+    width: 346px;  /* Fixed width for larger screens */
+  }
+}
+
+/* For very large screens (e.g., larger desktops or full screens) */
+@media (min-width: 1200px) {
+  .text-box {
+    width: 346px;  /* Fixed width for very large screens */
+  }
+}
+.search-input{
+  width: 90%;
+}
+ 

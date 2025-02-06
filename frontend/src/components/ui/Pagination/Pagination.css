@@ -1,0 +1,33 @@
+.pagination {
+    gap: 8px;
+}
+
+.page-number {
+    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-small);
+    font-size: var(--font-size-medium);
+    border: 1.5px solid var(--primary);
+    color: var(--light);
+    background-color: var(--primary);
+    box-sizing: border-box; /* Ensure padding and borders are included in width */
+}
+
+.page-number:disabled {
+    cursor: not-allowed;
+    opacity: var(--disabled-opacity);
+    cursor: var(--disabled-cursor);
+}
+
+.page-active {
+    background-color: var(--background-dark);
+    color: var(--dark);
+    border-radius: 50px;
+}
+
+.page-number:hover:not(:disabled) {
+    opacity: 0.8;
+}
