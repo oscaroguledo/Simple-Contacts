@@ -1,7 +1,7 @@
 // Title.js
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import './Text.css'; // Optional: If you have custom CSS styles
 const Title = ({ children, color = 'black', size = 'large', weight = 'bold', align = 'left', className = '' }) => {
   return (
     <span className={`text-title text-${size} text-${weight} text-${align} ${className}`} style={{ color }}>

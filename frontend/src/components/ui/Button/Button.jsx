@@ -21,7 +21,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`btn btn-${variant} btn-${size} ${loading ? 'btn-loading' : ''} ${!text ?'btn-round':''} ${outline ? 'btn-outline':''}`}
+      className={`btn btn-${variant} btn-${size} ${loading ? 'btn-loading' : ''} ${!text ?'btn-round':''} ${outline ? 'btn-outline':''} ${props.className}`}
       onClick={onClick}
       disabled={disabled || loading} // Disable button if it's loading or explicitly disabled
       {...props}

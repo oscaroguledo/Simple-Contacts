@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const Subtitle = ({ children, color = 'black', size = 'medium', weight = 'normal', align = 'left', className = '', ...props }) => {
   return (
-    <span className={`text-subtitle text-${size} text-${weight} text-${align} ${className}`} style={{ color }} {...props}>
+    <span className={`text-subtitle text-${size} text-${weight} text-${align} text-${color} ${className}`} {...props}>
       {children}
     </span>
   );

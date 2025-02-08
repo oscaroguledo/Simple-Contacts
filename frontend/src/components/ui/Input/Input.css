@@ -125,7 +125,58 @@
     width: 346px;  /* Fixed width for very large screens */
   }
 }
-.search-input{
+/* .search-input{
   width: 90%;
-}
+} */
  
+/* checkbox */
+.input-checkbox {
+  border-radius: 4px;  /* Rounded corners for a smoother look */
+  padding: 4px;
+  border: 1px solid var(--muted);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  outline: none;
+  appearance: none; /* Remove default appearance for better control */
+  width: 16px;
+  height: 16px;
+  position: relative;
+  background-color: white;
+}
+
+.input-checkbox:checked {
+  background-color: var(--primary);  /* Change background color when checked */
+  border-color: var(--primary);      /* Border color change when checked */
+}
+
+.input-checkbox:checked::before {
+  content: ''; /* No content for now */
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  clip-path: polygon(0% 0%, 40% 100%, 100% 10%, 60% 40%, 40% 70%);  /* Check mark icon */
+}
+
+.input-checkbox:hover {
+  border-color: var(--primary); /* Highlight the border on hover */
+  background-color: rgba(0, 0, 0, 0.05); /* Light background change when hovered */
+}
+
+.input-checkbox:active {
+  background-color: var(--muted);  /* Slightly darker background when clicked */
+  border-color: var(--muted);
+}
+
+.input-checkbox:focus {
+  border-color: var(--primary); /* Focus state with highlighted border */
+  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1); /* Optional shadow effect on focus */
+}
+
+.input-checkbox:disabled {
+  background-color: var(--disabled-bg);  /* Disabled background */
+  border-color: var(--disabled-border);  /* Disabled border */
+  cursor: not-allowed;
+}

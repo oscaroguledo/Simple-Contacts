@@ -49,7 +49,7 @@ const Search = ({ suffix, internalSuffix, placeholder, onSearch, ...props }) => 
             ref={inputRef} // Attach ref to the input
             prefix={<Icon variant={'dark'} name={'fa-magnifying-glass'} size='large' clickable onClick={handleSearch} />} 
             internalSuffix={internalSuffix && internalSuffix} 
-            suffix={suffix || <Icon variant={'dark'} name={'fa-microphone'} size='large' clickable onClick={handleAudioSearch} />} 
+            suffix={suffix && (suffix || <Icon variant={'dark'} name={'fa-microphone'} size='large' clickable onClick={handleAudioSearch} />)} 
             placeholder={placeholder || 'Search ...'}  // Ensure it's a string
             disabled={false}
             {...props} 
