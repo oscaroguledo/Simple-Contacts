@@ -1,11 +1,13 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import useGet from '../src/hooks/api/useGet';
-import usePostOrPut from '../src/hooks/api/usePostorPut';
-import useDelete from '../src/hooks/api/useDelete';
-import { useEffect, useState } from 'react';
+import useGet from './hooks/api/useGet';
+import usePostOrPut from './hooks/api/usePostorPut';
+import useDelete from './hooks/api/useDelete';
 import List from './components/ui/List/List';
 import Title from './components/ui/Text/Title';
+import Breadcrumb from './components/ui/Breadcrumb/Breadcrumb';
+import AddContact from './pages/Contact/Add/Add';
+import ViewContact from './pages/Contact/View/View';
 
 // Dummy data for contacts
 const initialContacts = [
@@ -22,31 +24,50 @@ const initialContacts = [
   { id: 11, name: 'William Lewis', address: '808 Cherry Ln', phone: '555-555-6677' },
   { id: 12, name: 'Isabella Young', address: '909 River Rd', phone: '555-555-8899' },
 ];
-const pages = [
-  <>
-    <Title align='center' className='mx-3'>Contacts Application</Title>
-    <List items={initialContacts} search pagination/>
-  </>,
-  <div>gggjkhff</div>,
-  <div>gggjkhff</div>,
-  <div>gggjkhff</div>
-]
+
 function App() {
   const { data, loading, error } = useGet('https://jsonplaceholder.typicode.com/posts');
   const { sendData, response: postResponse } = usePostOrPut('https://jsonplaceholder.typicode.com/posts', 'post');
   const { deleteData, response: deleteResponse } = useDelete('https://jsonplaceholder.typicode.com/posts/1');
 
+  // Send a new post request when component mounts
   useEffect(() => {
     sendData({ title: 'New Post', body: 'This is a test post.', userId: 1 });
-  }, []);
-  const [currentPage, setCurrentPage] = useState(pages[0]);
+  }, [sendData]);
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [contact, setContact] =useState(null);
+  const setCurrentPage =(contact, index)=>{
+    setCurrentPageIndex(index);
+    setContact(contact);
+  }
+  // Pages configuration
+  const pages = [
+    { name: 'List', item: <List items={initialContacts} onClickItem={setCurrentPage} onAdd={() => setCurrentPageIndex(1)} search pagination /> },
+    { name: 'Add', item: <AddContact onAddContact={() => setCurrentPageIndex(0)} /> },
+    { name: 'View', item: <ViewContact contact={contact} /> },
+    { name: 'Update', item: <ViewContact contact={contact} onUpdateContact={() => setCurrentPageIndex(0)}/> },
+  ];
+  
+  
+  const currentPage = pages[currentPageIndex];
+
+  const breadcrumbItems = [
+    { label: 'Contacts', onClick: () => setCurrentPageIndex(0) },
+    { label: currentPage.name, onClick: () => {} },
+  ];
+  
+
   return (
-    <div className='app mt-4 '>
-      {pages[currentPage]}
+    <div className="app mt-4">
+      <Title align="center" className="mx-3">
+        Contacts Application
+      </Title>
+
+      <Breadcrumb items={breadcrumbItems} onSetCurrentPage={setCurrentPage} className={'m-3'} />
+
+      <div>{currentPage.item}</div>
     </div>
-    
-    
-    )
+  );
 }
 
 export default App;

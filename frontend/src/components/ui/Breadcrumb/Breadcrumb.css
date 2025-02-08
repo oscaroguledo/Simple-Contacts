@@ -1,0 +1,32 @@
+.breadcrumb {
+  display: flex;
+  background-color: var(--background);
+  width: fit-content;
+  border-radius: 8px;
+  padding: 4px 8px; /* Adding some padding for better spacing */
+}
+
+.breadcrumb-item {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 4px 8px; /* Adding padding for better clickability */
+}
+
+.breadcrumb-item:hover {
+  background-color: whitesmoke; /* Change background when hovering */
+}
+
+.breadcrumb-item.active,
+.breadcrumb-item.active:hover {
+  background-color: transparent; /* No background for active item */
+  cursor: default; /* Prevent pointer cursor on active item */
+  color: var(--muted); /* Muted color for active item */
+}
+
+.breadcrumb-item-separator {
+  color: var(--muted);
+  padding: 0 8px; /* Adding space around separator */
+  display: flex;
+  justify-content: center; /* Centering the separator */
+  align-items: center;
+}

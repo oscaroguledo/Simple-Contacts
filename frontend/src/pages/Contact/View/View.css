@@ -1,0 +1,29 @@
+/* Basic styling for the ViewContact component */
+.view-contact {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .contact-image {
+    text-align: center;
+  }
+  
+  .contact-image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .contact-info {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .contact-info .subtitle {
+    font-weight: bold;
+  }
+  

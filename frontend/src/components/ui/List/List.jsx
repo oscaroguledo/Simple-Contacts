@@ -9,7 +9,7 @@ import Search from '../Input/Search';
 import Avatar from '../Avatar/Avatar';
 import Checkbox from '../Input/Checkbox';
 
-const List = ({ items, search, paginationPosition = 'center',pagination =false  }) => {
+const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center',pagination =false  }) => {
   const [contacts, setContacts] = useState(items);
   const [filteredContacts, setFilteredContacts] = useState(items);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,12 +24,10 @@ const List = ({ items, search, paginationPosition = 'center',pagination =false  
     setContacts(updatedContacts);
   };
 
-  const updateContact = (id) => {
-    console.log(id);
-  };
-
   const addContact = () => {
-    console.log('added new contact');
+    if (onAdd){
+      onAdd();
+    }
   };
 
   // Handle search filter
@@ -107,7 +105,7 @@ const List = ({ items, search, paginationPosition = 'center',pagination =false  
   };
 
   return (
-    <div className="contacts p-3">
+    <div className="contacts px-3">
       <Title>Contact List</Title>
       <Subtitle color="notification" className="mx-3">
         {pages[currentPage - 1]?.contacts.length}/{filteredContacts.length}
@@ -138,7 +136,7 @@ const List = ({ items, search, paginationPosition = 'center',pagination =false  
           <span
             key={contact.id}
             className="contact-item p-2 mt-2 d-flex flex-row justify-content-space-between align-items-center cursor-pointer"
-            onClick={() => updateContact(contact.id)}
+            onClick={() => onClickItem(contact,2)}
             onContextMenu={handleRightClick} // Detect right-click
             onMouseDown={() => handleMouseDown(contact.id)} // Detect long press
             onMouseUp={handleMouseUp} // Cancel long press on mouse release

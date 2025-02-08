@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Input.css'; // Import the CSS file for styling
 
-const Input = ({ defaultValue,prefix, suffix,  internalSuffix, placeholder,onChange, className,disabled=true , ...props }) => {
+const Input = ({ type, defaultValue,prefix, suffix,  internalSuffix, placeholder,onChange, className,disabled=true , ...props }) => {
     
     const [value, setValue] = useState(defaultValue || null);
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        if (event.target.value){
+            setValue(event.target.value)
+        }
         if (onChange) {
-            onChange(event.target.value); // Pass the input value to onSearch
+            onChange(event); // Pass the input value to onSearch
         }
     };
 
@@ -21,7 +23,7 @@ const Input = ({ defaultValue,prefix, suffix,  internalSuffix, placeholder,onCha
             <div className="input-wrapper">
                 
                 <input 
-                    type="text" 
+                    type={type || "text"} 
                     value={value || ''} 
                     onChange={handleChange} 
                     placeholder={placeholder || 'Type something...'} 
@@ -44,6 +46,7 @@ const Input = ({ defaultValue,prefix, suffix,  internalSuffix, placeholder,onCha
 
 // Prop types for validation
 Input.propTypes = {
+    type:PropTypes.string,
     defaultValue:PropTypes.number,
     prefix: PropTypes.string,          // External prefix text/icon
     suffix: PropTypes.string,          // External suffix text/icon
