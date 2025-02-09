@@ -8,8 +8,11 @@ import Text from '../Text/Text';
 import Search from '../Input/Search';
 import Avatar from '../Avatar/Avatar';
 import Checkbox from '../Input/Checkbox';
+import {deleteData} from '../../../hooks/api/useDelete';
+import { baseurl } from '../../../utils/constants';
 
-const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center',pagination =false  }) => {
+const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition = 'center',pagination =false  }) => {
+  
   const [contacts, setContacts] = useState(items);
   const [filteredContacts, setFilteredContacts] = useState(items);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,12 +22,23 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
   const [longPressTimer, setLongPressTimer] = useState(null);
   const [isLongPress, setIsLongPress] = useState(false); // Track if it's a long press
 
-
-  // Function to delete a contact
   const deleteContact = (id) => {
-    const updatedContacts = contacts.filter(contact => contact.id !== id);
-    setContacts(updatedContacts);
+    // Assuming each contact has an `id` field
+    deleteData(`${baseurl}/api/contacts/${id}/`)
+      .then(() => {
+        // If the delete was successful, update the contacts list
+        const updatedContacts = contacts.filter(contact => contact.id !== id);
+        setContacts(updatedContacts);
+  
+        if (onDelete) {
+          onDelete(id);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting contact:', error);
+      });
   };
+  
 
   const addContact = () => {
     if (onAdd){
@@ -36,13 +50,17 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
   const handleSearchFilter = (value) => {
     setSearchValue(value);
   };
+  useEffect(() => {
+    setContacts(items); // Update contacts whenever the items prop changes
+  }, [items]);
 
   useEffect(() => {
+    
     // Filter contacts based on search value
     const filtered = contacts.filter(contact =>
       contact.name.toLowerCase().includes(searchValue.toLowerCase()) ||
       contact.address.toLowerCase().includes(searchValue.toLowerCase()) ||
-      contact.phone.includes(searchValue)
+      contact.phone_number.includes(searchValue)
     );
     setFilteredContacts(filtered);
 
@@ -151,14 +169,14 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
           <span
             key={contact.id}
             className="contact-item p-2 mt-2 d-flex flex-row justify-content-space-between align-items-center cursor-pointer"
-            onClick={(event) => handleLeftClick(contact,event)}
+            
             onContextMenu={handleRightClick} // Detect right-click
             
             onMouseDown={() => handleMouseDown(contact.id)} // Detect long press
             onMouseUp={handleMouseUp} // Cancel long press on mouse release
           >
             <span className="d-flex flex-row justify-content-space-between align-items-center">
-              <Avatar src={contact.image || ''} alt={contact.name} />
+              <Avatar src={contact.image || ''} alt={contact.name}  onClick={(event) => handleLeftClick(contact,event)}/>
 
               {showCheckboxes && (
                 <Checkbox
@@ -167,9 +185,9 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
                 />
               )}
 
-              <Title className="m-2">{contact.name}</Title>
-              <Text className="m-2"><strong>Address:</strong> {contact.address}</Text>
-              <Text className="m-2"><strong>Phone:</strong> {contact.phone}</Text>
+              <Title className="m-2" onClick={(event) => handleLeftClick(contact,event)}>{contact.name}</Title>
+              <Text className="m-2" onClick={(event) => handleLeftClick(contact,event)}><strong>Address:</strong> {contact.address}</Text>
+              <Text className="m-2" onClick={(event) => handleLeftClick(contact,event)}><strong>Phone:</strong> {contact.phone_number}</Text>
             </span>
             <Button size="small" icon="fa-trash" onClick={() => deleteContact(contact.id)} text="Delete" variant="danger" />
           </span>

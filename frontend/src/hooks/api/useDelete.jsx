@@ -6,7 +6,7 @@ const useDelete = (url, options = {}) => {
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
 
-  const deleteData = async () => {
+  const deleteData = async (url, options) => {
     setLoading(true);
     try {
       const res = await axios.delete(url, options);
@@ -20,5 +20,13 @@ const useDelete = (url, options = {}) => {
 
   return { deleteData, response, loading, error };
 };
-
-export default useDelete;
+const deleteData = async (url, options) => {
+  
+  try {
+    const res = await axios.delete(url, options);
+    console.log(res)
+  } catch (err) {
+     
+  }
+};
+export {useDelete,deleteData};

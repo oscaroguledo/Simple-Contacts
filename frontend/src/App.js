@@ -1,60 +1,117 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-// import useGet from './hooks/api/useGet';
-// import usePostOrPut from './hooks/api/usePostorPut';
-// import useDelete from './hooks/api/useDelete';
 import List from './components/ui/List/List';
 import Title from './components/ui/Text/Title';
 import Breadcrumb from './components/ui/Breadcrumb/Breadcrumb';
 import AddContact from './pages/Contact/Add/Add';
 import ViewContact from './pages/Contact/View/View';
-
-// Dummy data for contacts
-const initialContacts = [
-  { id: 1, name: 'John Doe', address: '123 Main St', phone: '555-555-5555' },
-  { id: 2, name: 'Jane Smith', address: '456 Oak Ave', phone: '555-555-1234' },
-  { id: 3, name: 'Emily Johnson', address: '789 Pine Dr', phone: '555-555-9876' },
-  { id: 4, name: 'Michael Brown', address: '101 Elm St', phone: '555-555-1122' },
-  { id: 5, name: 'Linda Williams', address: '202 Maple Rd', phone: '555-555-3344' },
-  { id: 6, name: 'James Taylor', address: '303 Birch Ln', phone: '555-555-5566' },
-  { id: 7, name: 'Patricia Martinez', address: '404 Cedar Blvd', phone: '555-555-7788' },
-  { id: 8, name: 'Robert Harris', address: '505 Oakwood Dr', phone: '555-555-9900' },
-  { id: 9, name: 'Daniel Walker', address: '606 Pineview Ave', phone: '555-555-1123' },
-  { id: 10, name: 'Sophia Clark', address: '707 Willow Way', phone: '555-555-4455' },
-  { id: 11, name: 'William Lewis', address: '808 Cherry Ln', phone: '555-555-6677' },
-  { id: 12, name: 'Isabella Young', address: '909 River Rd', phone: '555-555-8899' },
-];
+import { baseurl } from './utils/constants';
+import axios from 'axios';
 
 function App() {
-  // const { data, loading, error } = useGet('https://jsonplaceholder.typicode.com/posts');
-  // const { sendData, response: postResponse } = usePostOrPut('https://jsonplaceholder.typicode.com/posts', 'post');
-  // const { deleteData, response: deleteResponse } = useDelete('https://jsonplaceholder.typicode.com/posts/1');
-
-  // Send a new post request when component mounts
-  // useEffect(() => {
-  //   sendData({ title: 'New Post', body: 'This is a test post.', userId: 1 });
-  // }, [sendData]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [contact, setContact] =useState(null);
-  const setCurrentPage =(contact, index)=>{
+  const [contact, setContact] = useState(null);
+  const [contactsData, setContactsData] = useState([]);
+
+  // Fetching contacts data when the component mounts or when currentPageIndex changes
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseurl}/api/contacts/`);
+        setContactsData(response.data);
+      } catch (error) {
+        console.error('Error fetching contacts data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Only re-fetch when currentPageIndex changes
+
+  // Function to set the current page and the selected contact
+  const setCurrentPage = (contact, index) => {
     setCurrentPageIndex(index);
     setContact(contact);
-  }
-  // Pages configuration
-  const pages = [
-    { name: 'List', item: <List items={initialContacts} onClickItem={setCurrentPage} onAdd={() => setCurrentPageIndex(1)} search pagination /> },
-    { name: 'Add', item: <AddContact onAddContact={() => setCurrentPageIndex(0)} /> },
-    { name: 'View/Update', item: <ViewContact contact={contact} /> },
-  ];
-  
-  
-  const currentPage = pages[currentPageIndex];
+  };
 
-  const breadcrumbItems = [
-    { label: 'Contacts', onClick: () => setCurrentPageIndex(0) },
-    { label: currentPage.name, onClick: () => {} },
-  ];
-  
+  // Handle adding new contact to the list without refetching the data
+  const handleAddContact = (newContact) => {
+    setContactsData((prevData) => [...prevData, newContact]); // Add new contact to the list
+    setCurrentPage(newContact, 0); // After adding, go back to the list page (index 0)
+  };
+  const handleUpdateContact = (updatedContact) => {
+    setContactsData((prevData) => {
+      return prevData.map((contact) => {
+        
+        // If the contact id matches, update the contact, otherwise return the original contact
+        if (contact.id === updatedContact.id) {
+          return updatedContact;
+        }
+        return contact; // If no match, just return the contact as is
+      });
+    });
+    
+    setCurrentPage(updatedContact, 0); // After updating, go back to the list page (index 0)
+  };
+  const handleDeleteContact = (id) => {
+    const updatedContacts = contactsData.filter(contact => contact.id !== id);
+    setContactsData(updatedContacts);
+    setCurrentPageIndex(0);
+  };
+
+  // Breadcrumb configuration based on currentPageIndex
+  const renderBreadCrumbItems = () => {
+    const breadcrumbItems = [
+      { label: 'Contacts', onClick: () => setCurrentPageIndex(0) },
+    ];
+
+    switch (currentPageIndex) {
+      case 0:
+        breadcrumbItems.push({ label: 'List', onClick: () => {} });
+        break;
+      case 1:
+        breadcrumbItems.push({ label: 'Add', onClick: () => {} });
+        break;
+      case 2:
+        breadcrumbItems.push({ label: 'View/Update', onClick: () => {} });
+        break;
+      default:
+        breadcrumbItems.push({ label: 'List', onClick: () => {} });
+        break;
+    }
+
+    return breadcrumbItems;
+  };
+
+  // Rendering content based on currentPageIndex
+  const renderPageContent = () => {
+    switch (currentPageIndex) {
+      case 0:
+        return (
+          <List
+            items={contactsData}
+            onClickItem={setCurrentPage}
+            onAdd={() => setCurrentPageIndex(1)} // Navigate to Add page
+            onDelete={handleDeleteContact} // Navigate to Add page
+            search
+            pagination
+          />
+        );
+      case 1:
+        return <AddContact onAddContact={handleAddContact} />;
+      case 2:
+        return <ViewContact contact={contact} onUpdate={handleUpdateContact} />;
+      default:
+        return (
+          <List
+            items={contactsData}
+            onClickItem={setCurrentPage}
+            onAdd={() => setCurrentPageIndex(1)}
+            search
+            pagination
+          />
+        );
+    }
+  };
 
   return (
     <div className="app mt-4">
@@ -62,9 +119,9 @@ function App() {
         Contacts Application
       </Title>
 
-      <Breadcrumb items={breadcrumbItems} onSetCurrentPage={setCurrentPage} className={'m-3'} />
-
-      <div>{currentPage.item}</div>
+      <Breadcrumb items={renderBreadCrumbItems()} className="m-3" onSetCurrentPage={setCurrentPage} />
+      
+      {renderPageContent()}
     </div>
   );
 }

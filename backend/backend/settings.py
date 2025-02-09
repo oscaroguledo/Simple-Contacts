@@ -25,21 +25,24 @@ SECRET_KEY = 'django-insecure-f!*nwpsk)1sev!_wn0x9*4t6i^57u@xvx-w+e(%mxt5t66im6y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8000-oscaroguled-simpleconta-pzdx3bl9l6c.ws-eu117.gitpod.io','http://127.0.0.1:8000']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'contacts'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,6 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True  # or configure specific origins as needed
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

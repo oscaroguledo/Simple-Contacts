@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useGet = (url, options = {}) => {
+const useGet = (url,currentPageIndex, options = {}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ const useGet = (url, options = {}) => {
     return () => {
       isMounted = false;
     };
-  }, [url]);
+  }, [url,currentPageIndex]);
 
   return { data, loading, error };
 };

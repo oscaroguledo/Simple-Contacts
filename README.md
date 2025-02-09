@@ -16,7 +16,7 @@ A simple contacts web application built with **React** for the frontend and **Dj
 ## Project Overview
 
 This is a full-stack web application where users can:
-- **Add** new contacts with name, address, and phone number.
+- **Add** new contacts with image, name, address, and phone number.
 - **View** the list of contacts.
 - **Update** contact information.
 - **Delete** contacts.
@@ -55,65 +55,18 @@ The project uses:
 - Python 3.x
 - pip (Python package manager)
 
-### Steps to Set Up the Backend
-
-1. **Navigate to the backend folder**:
-   ```bash
-   cd backend
-   ```
-
-2. **Create a virtual environment**:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
-   ```
-
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Apply database migrations**:
-   ```bash
-   python manage.py migrate
-   ```
-
-5. **Create a superuser (optional for admin access)**:
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-6. **Run the Django server**:
-   ```bash
-   python manage.py runserver
-   ```
-
-The Django API will now be running at `http://127.0.0.1:8000/`.
-
----
-
 ## Frontend Setup (React)
 
 ### Prerequisites
 
 - Node.js (Download and install from [Node.js](https://nodejs.org/))
 
-### Steps to Set Up the Frontend
-
-1. **Navigate to the frontend folder**:
    ```bash
-   cd frontend
+   chmod +x setup.sh
+   ./setup.sh
    ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Start the React development server**:
-   ```bash
-   npm start
-   ```
+chmod +x setup.sh
+./setup.sh
 
 The React application will now be running at `http://localhost:3000/`.
 

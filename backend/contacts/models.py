@@ -2,11 +2,12 @@
 from django.db import models
 
 # Create your models here.
-
+MAX_LENGTH =255
 class Contact(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)
+    image = models.CharField(max_length=MAX_LENGTH)
+    name = models.CharField(max_length=MAX_LENGTH)
+    address = models.CharField(max_length=MAX_LENGTH)
+    phone_number = models.CharField(max_length=MAX_LENGTH)
 
     def __str__(self):
         return self.name
