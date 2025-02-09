@@ -61,12 +61,6 @@ The project uses:
 
 - Node.js (Download and install from [Node.js](https://nodejs.org/))
 
-   ```bash
-   chmod +x setup.sh
-   ./setup.sh
-   ```
-chmod +x setup.sh
-./setup.sh
 
 The React application will now be running at `http://localhost:3000/`.
 
@@ -77,6 +71,10 @@ The React application will now be running at `http://localhost:3000/`.
 To run the full application locally:
 
 1. **Ensure both the backend (Django) and frontend (React) are running** on their respective servers.
+   ```bash
+         chmod +x setup.sh
+         ./setup.sh
+   ```
    - Backend (Django) runs on: `http://127.0.0.1:8000/`
    - Frontend (React) runs on: `http://localhost:3000/`
 

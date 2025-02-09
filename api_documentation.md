@@ -5,10 +5,8 @@
 ## Overview
 This API provides access to the **Contacts** data. It allows you to perform CRUD (Create, Read, Update, Delete) operations on contact records. The API is built using Django and Django Rest Framework (DRF).
 
-## Base URL
-```
-http://127.0.0.1:8000/api/contacts/
-```
+### Base URL
+- **URL**: `http://127.0.0.1:8000/api/contacts/`
 
 ## Authentication
 This API does not require authentication, but you can add authentication mechanisms such as Token Authentication or OAuth2 in the future.
