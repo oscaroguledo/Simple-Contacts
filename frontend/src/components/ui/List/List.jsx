@@ -53,7 +53,6 @@ const List = ({ items, search, onAdd, onDelete, onClickItem, paginationPosition 
 
   // Update filtered contacts based on the search value
   useEffect(() => {
-    console.log(searchValue.length)
     if (searchValue.length === 0){
       setFilteredContacts(contacts);
     }else{
@@ -199,7 +198,7 @@ const List = ({ items, search, onAdd, onDelete, onClickItem, paginationPosition 
         ))}
       </div>
 
-      {pagination && (
+      {pages[currentPage - 1]?.contacts.length >0 && pagination && (
         <span className={`p-3 ${paginationPosition === 'left' ? 'mr-auto' : paginationPosition === 'right' ? 'ml-auto' : ''}`}>
           <Pagination
             currentPage={currentPage}

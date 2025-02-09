@@ -163,14 +163,6 @@ For this guide, I'll assume you're using **AWS**.
              proxy_set_header X-Forwarded-Proto $scheme;
          }
 
-         location /static/ {
-             alias /path_to_your_project/static/;
-         }
-
-         location /media/ {
-             alias /path_to_your_project/media/;
-         }
-     }
      ```
    - Enable the Nginx configuration:
      ```bash
