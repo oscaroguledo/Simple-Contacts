@@ -17,6 +17,8 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
   const [selectedContacts, setSelectedContacts] = useState(new Set());
   const [showCheckboxes, setShowCheckboxes] = useState(false); // Track checkbox visibility
   const [longPressTimer, setLongPressTimer] = useState(null);
+  const [isLongPress, setIsLongPress] = useState(false); // Track if it's a long press
+
 
   // Function to delete a contact
   const deleteContact = (id) => {
@@ -95,13 +97,26 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
   const handleMouseUp = () => {
     if (longPressTimer) {
       clearTimeout(longPressTimer); // Cancel long press if mouse is released
+      setIsLongPress(true); // Mark as long press after delay
       setLongPressTimer(null);
+    }
+    // If it's not a long press, perform left-click action
+    if (!isLongPress) {
+      setIsLongPress(false); // Reset long press status
     }
   };
 
   const handleRightClick = (event) => {
     event.preventDefault();
     setShowCheckboxes(!showCheckboxes); // Show checkboxes on right-click
+  };
+  const handleLeftClick = (contact, event) => {
+    event.preventDefault(); // Prevent any default behavior
+    if (!isLongPress && onClickItem) {
+      onClickItem(contact, 2); // Trigger the onClickItem function with the contact and the value '2'
+    }
+    // Reset long press flag
+    setIsLongPress(false);
   };
 
   return (
@@ -136,8 +151,9 @@ const List = ({ items, search, onAdd, onClickItem, paginationPosition = 'center'
           <span
             key={contact.id}
             className="contact-item p-2 mt-2 d-flex flex-row justify-content-space-between align-items-center cursor-pointer"
-            onClick={() => onClickItem(contact,2)}
+            onClick={(event) => handleLeftClick(contact,event)}
             onContextMenu={handleRightClick} // Detect right-click
+            
             onMouseDown={() => handleMouseDown(contact.id)} // Detect long press
             onMouseUp={handleMouseUp} // Cancel long press on mouse release
           >

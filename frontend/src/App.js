@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import useGet from './hooks/api/useGet';
-import usePostOrPut from './hooks/api/usePostorPut';
-import useDelete from './hooks/api/useDelete';
+// import useGet from './hooks/api/useGet';
+// import usePostOrPut from './hooks/api/usePostorPut';
+// import useDelete from './hooks/api/useDelete';
 import List from './components/ui/List/List';
 import Title from './components/ui/Text/Title';
 import Breadcrumb from './components/ui/Breadcrumb/Breadcrumb';
@@ -26,14 +26,14 @@ const initialContacts = [
 ];
 
 function App() {
-  const { data, loading, error } = useGet('https://jsonplaceholder.typicode.com/posts');
-  const { sendData, response: postResponse } = usePostOrPut('https://jsonplaceholder.typicode.com/posts', 'post');
-  const { deleteData, response: deleteResponse } = useDelete('https://jsonplaceholder.typicode.com/posts/1');
+  // const { data, loading, error } = useGet('https://jsonplaceholder.typicode.com/posts');
+  // const { sendData, response: postResponse } = usePostOrPut('https://jsonplaceholder.typicode.com/posts', 'post');
+  // const { deleteData, response: deleteResponse } = useDelete('https://jsonplaceholder.typicode.com/posts/1');
 
   // Send a new post request when component mounts
-  useEffect(() => {
-    sendData({ title: 'New Post', body: 'This is a test post.', userId: 1 });
-  }, [sendData]);
+  // useEffect(() => {
+  //   sendData({ title: 'New Post', body: 'This is a test post.', userId: 1 });
+  // }, [sendData]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [contact, setContact] =useState(null);
   const setCurrentPage =(contact, index)=>{
@@ -44,8 +44,7 @@ function App() {
   const pages = [
     { name: 'List', item: <List items={initialContacts} onClickItem={setCurrentPage} onAdd={() => setCurrentPageIndex(1)} search pagination /> },
     { name: 'Add', item: <AddContact onAddContact={() => setCurrentPageIndex(0)} /> },
-    { name: 'View', item: <ViewContact contact={contact} /> },
-    { name: 'Update', item: <ViewContact contact={contact} onUpdateContact={() => setCurrentPageIndex(0)}/> },
+    { name: 'View/Update', item: <ViewContact contact={contact} /> },
   ];
   
   

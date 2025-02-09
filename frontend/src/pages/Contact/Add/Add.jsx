@@ -7,14 +7,12 @@ import Subtitle from '../../../components/ui/Text/Subtitle';
 
 const AddContact = ({ onAddContact }) => {
   const [image, setImage] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
 
   const handleImageChange = (e) => setImage(e.target.files[0]);
-  const handleFirstNameChange = (e) => setFirstName(e.target.value);
-  const handleLastNameChange = (e) => setLastName(e.target.value);
+  const handleNameChange = (e) => setName(e.target.value);
   const handlePhoneChange = (e) => setPhone(e.target.value);
   const handleAddressChange = (e) => setAddress(e.target.value);
 
@@ -24,8 +22,7 @@ const AddContact = ({ onAddContact }) => {
     // Create a contact object
     const newContact = {
       image,
-      firstName,
-      lastName,
+      name,
       phone,
       address,
     };
@@ -35,8 +32,7 @@ const AddContact = ({ onAddContact }) => {
     
     // Reset form fields
     setImage('');
-    setFirstName('');
-    setLastName('');
+    setName('');
     setPhone('');
     setAddress('');
   };
@@ -53,12 +49,8 @@ const AddContact = ({ onAddContact }) => {
           <Input type="file" onChange={handleImageChange} disabled={false} className={'cursor-pointer'}/>
         </div>
         <div className="my-2">
-        <Subtitle className="my-3">First Name:</Subtitle>
-          <Input type="text" defaultValue={firstName} onChange={handleFirstNameChange} disabled={false} required />
-        </div>
-        <div className="my-2">
-        <Subtitle className="my-3">Last Name:</Subtitle>
-          <Input type="text" defaultValue={lastName} onChange={handleLastNameChange} disabled={false} required />
+        <Subtitle className="my-3">Name:</Subtitle>
+          <Input type="text" defaultValue={name} onChange={handleNameChange} disabled={false} required />
         </div>
         <div className="my-2">
         <Subtitle className="my-3">Phone Number:</Subtitle>
