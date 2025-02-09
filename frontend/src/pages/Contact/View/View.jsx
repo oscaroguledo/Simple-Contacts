@@ -19,7 +19,17 @@ const ViewContact = ({ contact, onUpdate }) => {
 
   const { sendData } = usePostOrPut(`${baseurl}/api/contacts/${contact.id}/`, 'put');
 
-  const handleImageChange = (e) => setImage(e.target.files[0]);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.onerror = (error) => {
+        console.error('There was an error uploading the file!', error);
+    };
+};
   const handleNameChange = (e) => setName(e.target.value);
   const handlePhoneChange = (e) => setPhone(e.target.value);
   const handleAddressChange = (e) => setAddress(e.target.value);
@@ -81,6 +91,8 @@ const ViewContact = ({ contact, onUpdate }) => {
             <img
               src={image instanceof File ? URL.createObjectURL(image) : image}
               alt={name}
+              height={120}
+              width={150}
               className="contact-image-preview"
             />
           </div>
@@ -127,6 +139,7 @@ const ViewContact = ({ contact, onUpdate }) => {
               type="file"
               onChange={handleImageChange}
               accept="image/*"
+              disabled={!editable}
             />
           </div>
         )}

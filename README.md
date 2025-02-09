@@ -9,7 +9,6 @@ A simple contacts web application built with **React** for the frontend and **Dj
 - [Frontend Setup (React)](#frontend-setup-react)
 - [Running the Application Locally](#running-the-application-locally)
 - [Deployment](#deployment)
-- [License](#license)
 
 ---
 

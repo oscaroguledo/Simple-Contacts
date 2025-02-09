@@ -6,7 +6,6 @@ import Title from '../../../components/ui/Text/Title';
 import Subtitle from '../../../components/ui/Text/Subtitle';
 import usePostOrPut from '../../../hooks/api/usePostorPut';
 import { baseurl } from '../../../utils/constants';
-import { fileToBase64 } from '../../../utils/helper';
 
 const AddContact = ({ onAddContact }) => {
     const [image, setImage] = useState('');
@@ -16,14 +15,17 @@ const AddContact = ({ onAddContact }) => {
 
     
     const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      fileToBase64(file).then((base64String) => {
-        console.log(base64String); // This will print the base64 string
-        setImage(base64String);    // Save the base64 string to state
-      }).catch((error) => {
-        console.error('Error converting file to base64:', error);
-      });
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          setImage(reader.result);
+        };
+        reader.onerror = (error) => {
+            console.error('There was an error uploading the file!', error);
+        };
     };
+
     
     const handleNameChange = (e) => setName(e.target.value);
     const handlePhoneChange = (e) => setPhone(e.target.value);

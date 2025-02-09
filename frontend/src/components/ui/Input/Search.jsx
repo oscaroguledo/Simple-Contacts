@@ -1,63 +1,74 @@
-import React, {  useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
 import Icon from '../Icon/Icon';
 
 const Search = ({ suffix, internalSuffix, placeholder, onSearch, ...props }) => {
-    // Use ref to access the input element
     const inputRef = useRef(null);
-
+    const [value, setValue] = useState('');
     
-    const handleSearch =() =>{
+    // Memoize the function so it doesn't change on every render
+    const handleSearch = useCallback((value) => {
         if (onSearch) {
-            onSearch(inputRef.current.value); // Pass the input value to onSearch
+            onSearch(value);
         }
-    }
-    const handleAudioSearch =() =>{
+    }, [onSearch]); // Only re-create if `onSearch` changes
+
+    const handleAudioSearch = (value) => {
         if (onSearch) {
-            onSearch(inputRef.current.value); // Pass the input value to onSearch
+            onSearch(value); // Use the state value directly
         }
-    }
+    };
 
     // Effect to add the keypress event listener
     useEffect(() => {
         const inputElement = inputRef.current;
 
-        // Keyboard binding logic
         const handleKeyPress = (event) => {
-            // Trigger search on Enter key
+            
             if (event.key === 'Enter') {
-                handleSearch();
+                handleSearch(inputRef.current.value); // Trigger search on Enter key
             }
         };
-        
+        const handleKeyDown = (event) => {
+            if (event.key === 'Backspace' && inputRef.current.value.length <= 1) {
+                console.log('Backspace pressed, input is empty');
+                handleSearch('');
+            }
+        };
+
         if (inputElement) {
             inputElement.addEventListener('keypress', handleKeyPress);
-        }
+            inputElement.addEventListener('keydown', handleKeyDown);
 
-        // Clean up the event listener on component unmount
+        }
+        
+
         return () => {
             if (inputElement) {
                 inputElement.removeEventListener('keypress', handleKeyPress);
+                inputElement.removeEventListener('keydown', handleKeyDown);
+
             }
         };
-    }, []);
+    }, [handleSearch]);
 
     return (
-        <Input 
+        <Input
             className={'search-input'}
             ref={inputRef} // Attach ref to the input
-            prefix={<Icon variant={'dark'} name={'fa-magnifying-glass'} size='large' clickable onClick={handleSearch} />} 
-            internalSuffix={internalSuffix && internalSuffix} 
-            suffix={suffix && (suffix || <Icon variant={'dark'} name={'fa-microphone'} size='large' clickable onClick={handleAudioSearch} />)} 
-            placeholder={placeholder || 'Search ...'}  // Ensure it's a string
+            prefix={<Icon variant={'dark'} name={'fa-magnifying-glass'} size='large' clickable onClick={handleSearch} />}
+            internalSuffix={internalSuffix}
+            defaultValue={value || ''} 
+            onChange={(event)=>(setValue(event.target.value))} 
+            suffix={suffix && <Icon variant={'dark'} name={'fa-microphone'} size='large' clickable onClick={handleAudioSearch} />}
+            placeholder={placeholder || 'Search ...'}
             disabled={false}
-            {...props} 
+            {...props}
         />
     );
 };
 
-// Prop types for validation
 Search.propTypes = {
     suffix: PropTypes.node,           // External suffix (can be text, icon, or component)
     internalSuffix: PropTypes.node,   // Internal suffix inside the input (can be text, icon, or component)

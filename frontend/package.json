@@ -2,6 +2,8 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "author": "Oscar Oguledo oscarchiagoziem@gmail.com",
+  "description": "A simple full-stack web application for managing contacts.",
   "dependencies": {
     "axios": "^1.7.9",
     "cra-template": "1.2.0",

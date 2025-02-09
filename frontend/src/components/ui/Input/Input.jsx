@@ -7,9 +7,7 @@ const Input = ({ type, defaultValue,prefix, suffix,  internalSuffix, placeholder
     const [value, setValue] = useState(defaultValue || null);
 
     const handleChange = (event) => {
-        if (event.target.value){
-            setValue(event.target.value)
-        }
+        setValue(event.target.value)
         if (onChange) {
             onChange(event); // Pass the input value to onSearch
         }

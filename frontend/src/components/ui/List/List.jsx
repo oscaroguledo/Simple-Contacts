@@ -8,10 +8,10 @@ import Text from '../Text/Text';
 import Search from '../Input/Search';
 import Avatar from '../Avatar/Avatar';
 import Checkbox from '../Input/Checkbox';
-import {deleteData} from '../../../hooks/api/useDelete';
+import { deleteData } from '../../../hooks/api/useDelete';
 import { baseurl } from '../../../utils/constants';
 
-const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition = 'center',pagination =false  }) => {
+const List = ({ items, search, onAdd, onDelete, onClickItem, paginationPosition = 'center', pagination = false }) => {
   
   const [contacts, setContacts] = useState(items);
   const [filteredContacts, setFilteredContacts] = useState(items);
@@ -29,7 +29,7 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
         // If the delete was successful, update the contacts list
         const updatedContacts = contacts.filter(contact => contact.id !== id);
         setContacts(updatedContacts);
-  
+
         if (onDelete) {
           onDelete(id);
         }
@@ -38,35 +38,41 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
         console.error('Error deleting contact:', error);
       });
   };
-  
 
   const addContact = () => {
-    if (onAdd){
+    if (onAdd) {
       onAdd();
     }
   };
 
   // Handle search filter
   const handleSearchFilter = (value) => {
+    console.log(value,'search value');
     setSearchValue(value);
   };
-  useEffect(() => {
-    setContacts(items); // Update contacts whenever the items prop changes
-  }, [items]);
 
+  // Update filtered contacts based on the search value
   useEffect(() => {
-    
-    // Filter contacts based on search value
-    const filtered = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-      contact.address.toLowerCase().includes(searchValue.toLowerCase()) ||
-      contact.phone_number.includes(searchValue)
-    );
-    setFilteredContacts(filtered);
-
+    console.log(searchValue.length)
+    if (searchValue.length === 0){
+      setFilteredContacts(contacts);
+    }else{
+      const filtered = contacts.filter(contact =>
+          contact.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+          contact.address.toLowerCase().includes(searchValue.toLowerCase()) ||
+          contact.phone_number.includes(searchValue)
+      );
+      setFilteredContacts(filtered);
+      
+    }
     // Reset the current page to 1 whenever the search value changes
     setCurrentPage(1);
   }, [searchValue, contacts]);
+
+  useEffect(() => {
+    setContacts(items); // Update contacts whenever the items prop changes
+    
+  }, [items]);
 
   // Pagination logic
   const perPage = 7;
@@ -128,6 +134,7 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
     event.preventDefault();
     setShowCheckboxes(!showCheckboxes); // Show checkboxes on right-click
   };
+
   const handleLeftClick = (contact, event) => {
     event.preventDefault(); // Prevent any default behavior
     if (!isLongPress && onClickItem) {
@@ -146,7 +153,7 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
 
       {/* Show Search if 'search' prop is true */}
       <span className="d-flex flex-row justify-content-space-between align-items-center my-1">
-        {search && <Search suffix={''} onSearch={handleSearchFilter} />}
+        {search && <Search onSearch={handleSearchFilter} />}
         <span className="mx-2"></span>
         <Button size="small" icon="fa-plus" onClick={addContact} text="Add" />
       </span>
@@ -168,15 +175,13 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
         {pages[currentPage - 1]?.contacts.map(contact => (
           <span
             key={contact.id}
-            className="contact-item p-2 mt-2 d-flex flex-row justify-content-space-between align-items-center cursor-pointer"
-            
+            className="contact-item p-2 mt-2 d-flex flex-row justify-content-space-between align-items-center"
             onContextMenu={handleRightClick} // Detect right-click
-            
             onMouseDown={() => handleMouseDown(contact.id)} // Detect long press
             onMouseUp={handleMouseUp} // Cancel long press on mouse release
           >
             <span className="d-flex flex-row justify-content-space-between align-items-center">
-              <Avatar src={contact.image || ''} alt={contact.name}  onClick={(event) => handleLeftClick(contact,event)}/>
+              <Avatar src={contact.image || ''} alt={contact.name} onClick={(event) => handleLeftClick(contact, event)} className={' cursor-pointer'} />
 
               {showCheckboxes && (
                 <Checkbox
@@ -185,24 +190,25 @@ const List = ({ items, search, onAdd,onDelete, onClickItem, paginationPosition =
                 />
               )}
 
-              <Title className="m-2" onClick={(event) => handleLeftClick(contact,event)}>{contact.name}</Title>
-              <Text className="m-2" onClick={(event) => handleLeftClick(contact,event)}><strong>Address:</strong> {contact.address}</Text>
-              <Text className="m-2" onClick={(event) => handleLeftClick(contact,event)}><strong>Phone:</strong> {contact.phone_number}</Text>
+              <Title className="m-2 cursor-pointer" onClick={(event) => handleLeftClick(contact, event)}>{contact.name}</Title>
+              <Text className="m-2 cursor-pointer" onClick={(event) => handleLeftClick(contact, event)}><strong>Address:</strong> {contact.address}</Text>
+              <Text className="m-2 cursor-pointer" onClick={(event) => handleLeftClick(contact, event)}><strong>Phone:</strong> {contact.phone_number}</Text>
             </span>
             <Button size="small" icon="fa-trash" onClick={() => deleteContact(contact.id)} text="Delete" variant="danger" />
           </span>
         ))}
       </div>
 
-      
-      {pagination && <span className={`p-3 ${paginationPosition === 'left' ? 'mr-auto' : paginationPosition === 'right' ? 'ml-auto' : ''}`}>
-                <Pagination
-                    currentPage={currentPage}
-                    items={items}  // Pass totalPages to Pagination component
-                    perPage={perPage}
-                    onPageChange={handlePageChange}
-                />
-            </span>}
+      {pagination && (
+        <span className={`p-3 ${paginationPosition === 'left' ? 'mr-auto' : paginationPosition === 'right' ? 'ml-auto' : ''}`}>
+          <Pagination
+            currentPage={currentPage}
+            items={items}  // Pass totalPages to Pagination component
+            perPage={perPage}
+            onPageChange={handlePageChange}
+          />
+        </span>
+      )}
     </div>
   );
 };
